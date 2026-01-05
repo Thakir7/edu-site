@@ -274,7 +274,7 @@
     };
 
     // لو عندك API لاحقاً ضع الرابط هنا (واتركه فارغ الآن)
-    const API_URL = ""; // مثال: "https://script.google.com/macros/s/XXXXX/exec"
+    const API_URL = "https://script.google.com/macros/s/AKfycbxcAkXuVFQmooMkdrFCUBwGdIYa2OdDBmhLbv5Xu5UrO003wC4yTGzCw3mfGzdCu8wxIw/exec"; // مثال: "https://script.google.com/macros/s/XXXXX/exec"
 
     async function fetchTrainee(id){
       // 1) إذا يوجد API فعلي
