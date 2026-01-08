@@ -1,0 +1,79 @@
+<!doctype html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <title>لوحة المتدرب</title>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">بوابة المتدرب</div>
+      <div class="row" style="flex:0; gap:8px">
+        <span id="who" class="badge"></span>
+        <button class="btn" onclick="logout()">تسجيل خروج</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="h2">بيانات المتدرب</div>
+      <div class="muted" id="info"></div>
+      <hr/>
+      <div class="row">
+        <select id="course" class="input"></select>
+        <button class="btn primary" onclick="goDefault()">فتح خدمات المقرر</button>
+      </div>
+      <div class="muted small" style="margin-top:8px">اختر المقرر ثم افتح أي خدمة من الأسفل.</div>
+    </div>
+
+    <div class="card">
+      <div class="h2">الخدمات</div>
+      <div class="grid">
+        <a class="btn" id="polBtn">سياسات المقرر التدريبي</a>
+        <a class="btn" id="planBtn">خطة المقرر</a>
+        <a class="btn" id="attBtn">سجل الحضور والغياب</a>
+        <a class="btn" id="grBtn">سجل الدرجات</a>
+        <a class="btn" href="calendar.html">التقويم الدراسي</a>
+        <a class="btn" href="contact.html">التواصل مع المدرب</a>
+        <a class="btn" href="admin.html">لوحة المدير</a>
+      </div>
+      <div class="muted small" style="margin-top:10px">تم حذف صفحة "المتدرب المتميز" حسب طلبك.</div>
+    </div>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    requireLogin();
+
+    function currentCourse(){
+      return document.getElementById("course").value;
+    }
+    function wireLinks(){
+      const c = encodeURIComponent(currentCourse());
+      document.getElementById("polBtn").href = "policies.html?course="+c;
+      document.getElementById("planBtn").href = "plan.html?course="+c;
+      document.getElementById("attBtn").href  = "attendance.html?course="+c;
+      document.getElementById("grBtn").href   = "grades.html?course="+c;
+    }
+    function goDefault(){
+      location.href = document.getElementById("polBtn").href;
+    }
+
+    (async()=>{
+      const s = getStudent();
+      document.getElementById("who").textContent = s ? (s.name + " - " + s.trainee_id) : "";
+      document.getElementById("info").textContent = s ? ("الجوال: "+(s.mobile||"-")+" | البريد: "+(s.email||"-")) : "";
+
+      const sel = document.getElementById("course");
+      sel.innerHTML="";
+      const courses = (s && s.courses && s.courses.length) ? s.courses : ["المقرر"];
+      courses.forEach(x=>{
+        const o=document.createElement("option");
+        o.value=x; o.textContent=x;
+        sel.appendChild(o);
+      });
+      sel.onchange = wireLinks;
+      wireLinks();
+    })();
+  </script>
+</body></html>

@@ -1,0 +1,71 @@
+<!doctype html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <title>لوحة المدير</title>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="btn" href="dashboard.html">رجوع</a>
+      <div class="brand">لوحة المدير</div>
+      <button class="btn" onclick="logout()">خروج</button>
+    </div>
+
+    <div class="card">
+      <div class="h2">إعدادات عامة</div>
+      <div class="muted">تُحفظ في تبويب Settings (key,value).</div>
+      <hr/>
+      <div class="row">
+        <input id="pin" class="input" placeholder="admin_pin (الرقم السري للمدير)">
+        <input id="contact_hours" class="input" placeholder="contact_hours مثال: 4">
+      </div>
+      <div class="row" style="margin-top:10px">
+        <input id="training_weeks" class="input" placeholder="training_weeks مثال: 16">
+        <input id="absence_allowed_pct" class="input" placeholder="absence_allowed_pct مثال: 20">
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <input id="trainer_whatsapp" class="input" placeholder="trainer_whatsapp مثال: 9665...">
+        <input id="trainer_email" class="input" placeholder="trainer_email">
+      </div>
+
+      <div style="margin-top:10px">
+        <button class="btn primary" onclick="save()">حفظ الإعدادات</button>
+      </div>
+
+      <div id="msg" class="msg"></div>
+      <div class="muted small" style="margin-top:10px">
+        ملاحظة: لكي تعمل اللوحة لأول مرة ضع في Settings يدويًا: key=admin_pin value=رقمك السري.
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    requireLogin();
+
+    async function save(){
+      const msg = document.getElementById("msg");
+      msg.className="msg"; msg.textContent="";
+      try{
+        const admin_pin = document.getElementById("pin").value.trim();
+        const items = [
+          {key:"admin_pin", value: admin_pin},
+          {key:"contact_hours", value: document.getElementById("contact_hours").value.trim()},
+          {key:"training_weeks", value: document.getElementById("training_weeks").value.trim()},
+          {key:"absence_allowed_pct", value: document.getElementById("absence_allowed_pct").value.trim()},
+          {key:"trainer_whatsapp", value: document.getElementById("trainer_whatsapp").value.trim()},
+          {key:"trainer_email", value: document.getElementById("trainer_email").value.trim()},
+        ];
+        await api("admin_settings_set", { admin_pin, items });
+        msg.className="msg ok";
+        msg.textContent="تم الحفظ بنجاح ✅";
+      }catch(e){
+        msg.className="msg err";
+        msg.textContent=e.message;
+      }
+    }
+  </script>
+</body></html>

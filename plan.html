@@ -1,0 +1,68 @@
+<!doctype html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <title>خطة المقرر</title>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="btn" href="dashboard.html">رجوع</a>
+      <div class="brand">خطة المقرر</div>
+      <button class="btn" onclick="logout()">خروج</button>
+    </div>
+
+    <div class="card">
+      <div class="h2" id="title"></div>
+      <div class="muted">تعتمد الخطة على تبويب Plan في الشيت الأساسي.</div>
+    </div>
+
+    <div class="card" id="content"></div>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    requireLogin();
+    const course = qs("course") || "";
+    setText("title", "المقرر: " + course);
+
+    (async()=>{
+      try{
+        const data = await api("plan_get",{ course_code: course });
+        const rows = data.rows || [];
+        if(!rows.length){
+          document.getElementById("content").innerHTML = `<div class="muted">لا توجد خطة مضافة.</div>`;
+          return;
+        }
+
+        const headers = ["الأسبوع التدريبي","ساعات التدريب","استراتيجية التدريب المستخدمة","آلية التقييم","درجة التقييم","الأهداف التفصيلية"];
+        const html = `
+          <table class="table">
+            <thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+            <tbody>
+              ${rows.map(r=>`
+                <tr>
+                  <td>${esc(r["الأسبوع التدريبي"]||"")}</td>
+                  <td>${esc(r["ساعات التدريب"]||"")}</td>
+                  <td>${esc(r["استراتيجية التدريب المستخدمة"]||"")}</td>
+                  <td>${esc(r["آلية التقييم"]||"")}</td>
+                  <td>${esc(r["درجة التقييم"]||"")}</td>
+                  <td>${esc(r["الأهداف التفصيلية"]||"")}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+        document.getElementById("content").innerHTML = html;
+
+      }catch(e){
+        document.getElementById("content").innerHTML = `<div class="msg err">${e.message}</div>`;
+      }
+    })();
+
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+  </script>
+</body></html>
