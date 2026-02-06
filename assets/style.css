@@ -1,0 +1,172 @@
+:root{
+  --bg:#0f3a4a;
+  --bg2:#0b2c38;
+  --card:rgba(255,255,255,.07);
+  --stroke:rgba(255,255,255,.14);
+  --btn:#2aa9b0;
+  --btn2:#1f8f95;
+  --white:#fff;
+  --muted:rgba(255,255,255,.75);
+  --danger:#ffb3b3;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Tahoma, Arial, sans-serif;
+  background: radial-gradient(circle at 30% 20%, #184e61 0, var(--bg) 35%, var(--bg2) 100%);
+  color:var(--white);
+  min-height:100vh;
+  padding:18px;
+  display:flex;
+  justify-content:center;
+}
+
+body:before{
+  content:"";
+  position:fixed; inset:0;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px) 0 0/38px 38px,
+    radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px) 18px 18px/38px 38px;
+  opacity:.35;
+  pointer-events:none;
+}
+
+.app{width:min(980px, 96vw); margin-top:10px;}
+
+.title{
+  text-align:center;
+  font-size:34px;
+  font-weight:800;
+  margin:0 0 18px 0;
+}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  padding:18px;
+  box-shadow: 0 18px 45px rgba(0,0,0,.25);
+  backdrop-filter: blur(8px);
+}
+
+.topBar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.homeBtn{
+  width:56px; height:56px;
+  border-radius:50%;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.10);
+  color:var(--white);
+  cursor:pointer;
+  font-size:22px;
+  display:flex; align-items:center; justify-content:center;
+  transition:.15s ease;
+}
+.homeBtn:hover{background:rgba(255,255,255,.14)}
+
+.inputRow{
+  width:min(560px, 92%);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 auto;
+}
+
+.label{
+  font-size:22px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+input{
+  flex:1;
+  height:56px;
+  border-radius:28px;
+  border:2px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  color:var(--white);
+  padding:0 18px;
+  font-size:20px;
+  outline:none;
+}
+input::placeholder{color:rgba(255,255,255,.55)}
+input:focus{border-color:rgba(111,209,214,.65)}
+
+.btn{
+  border:none;
+  cursor:pointer;
+  color:#08323a;
+  font-weight:900;
+  font-size:20px;
+  padding:10px 34px;
+  border-radius:28px;
+  background: linear-gradient(180deg, #4ad5dd, #179aa3);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+.btn:disabled{opacity:.7; cursor:not-allowed}
+
+.hint{ text-align:center; color:var(--muted); font-size:14px; margin-top:10px; }
+.error{ margin-top:10px; color:var(--danger); font-weight:800; display:none; text-align:center; }
+
+.infoBox{
+  padding:14px 16px;
+  border-radius:18px;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,.10);
+  margin-bottom:16px;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:10px;
+}
+.infoItem{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  padding:12px;
+  min-height:68px;
+}
+.infoItem .k{color:rgba(255,255,255,.72); font-size:13px; margin-bottom:6px}
+.infoItem .v{font-size:18px; font-weight:900}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:14px;
+  padding:10px 0 4px;
+}
+.serviceBtn, .navBtn{
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  border:none;
+  cursor:pointer;
+  padding:18px 10px;
+  border-radius:18px;
+  background: linear-gradient(180deg, #35b8bf, #1f8f95);
+  color:#073039;
+  font-weight:900;
+  font-size:20px;
+  box-shadow: 0 12px 22px rgba(0,0,0,.22);
+}
+
+.tableWrap{overflow:auto; border-radius:16px; border:1px solid var(--stroke);}
+table{width:100%; border-collapse:collapse; min-width:680px; background:rgba(255,255,255,.04);}
+th, td{padding:12px 10px; border-bottom:1px solid rgba(255,255,255,.10); text-align:right;}
+th{color:rgba(255,255,255,.9); font-weight:900; background:rgba(0,0,0,.12)}
+td{color:rgba(255,255,255,.85)}
+
+@media (max-width:760px){
+  .title{font-size:28px}
+  .label{font-size:18px}
+  input{font-size:18px}
+  .infoBox{grid-template-columns:1fr}
+  .grid{grid-template-columns: repeat(2, 1fr)}
+  table{min-width:520px}
+}
