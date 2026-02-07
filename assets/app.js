@@ -109,7 +109,7 @@ async function getViolations(id){
   return await apiGet({ action:"violations", id });
 }
 
-// ✅ لأن Code.gs لا يدعم action=profile/contact
+// ✅ لأن Code.gs لا يدعم action=profile/contact في مشروعك الحالي
 async function getProfile(id){
   return await apiGet({ action:"trainee", id });
 }
