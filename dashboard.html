@@ -49,12 +49,13 @@
     </div>
   </div>
 
-  <script src="assets/app.js?v=9999"></script>
+  <script src="assets/app.js?v=20260206"></script>
   <script>
     // ✅ تأكد من وجود جلسة
     const s = requireSession();
     if (!s) throw new Error("no session");
 
+    // ✅ عرض الهيدر من الجلسة
     fillHeaderFromSession();
 
     // ✅ تحديث بيانات المتدرب مرة واحدة (بدون تعليق/تحديث مستمر)
@@ -72,6 +73,23 @@
       clearSession();
       location.replace("index.html");
     });
+  </script>
+
+  <!-- ✅ حل قاطع: إجبار فتح الصفحة حتى لو فيه كود قديم يمنع الانتقال ويطبع "تم اختيار خدمة..." -->
+  <script>
+    document.addEventListener("click", function (e) {
+      const a = e.target.closest("a.bigBtn");
+      if (!a) return;
+
+      const href = a.getAttribute("href");
+      if (!href) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+      window.location.href = href;
+    }, true);
   </script>
 </body>
 </html>
